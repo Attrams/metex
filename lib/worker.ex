@@ -10,7 +10,8 @@ defmodule Metex.Worker do
 
   defp url_for(location) do
     location = URI.encode(location)
-    "https://api.openweathermap.org/data/2.5/weather?q=#{location}&appid=#{apiKey()}"
+    api_key = Application.fetch_env!(:metex, :openweather_api_key)
+    "https://api.openweathermap.org/data/2.5/weather?q=#{location}&appid=#{api_key}"
   end
 
   defp parse_response({:ok, %HTTPoison.Response{body: body, status_code: 200}}) do
@@ -37,9 +38,5 @@ defmodule Metex.Worker do
     end
 
     loop()
-  end
-
-  defp apiKey() do
-    "ENTER API KEY"
   end
 end
